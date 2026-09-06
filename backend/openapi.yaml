@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Siam U Todo API
   version: 0.2.0
-  description: Go + SQLite backend for authentication and user-owned Todo items.
+  description: Backend for authentication, user-owned Todo items, and game scores.
 servers:
   - url: http://localhost:4000
 paths:
@@ -76,6 +76,15 @@ paths:
     delete:
       security: [{ bearerAuth: [] }]
       responses: { '204': { description: Todo deleted }, '404': { description: Not found } }
+  /api/scores:
+    post:
+      security: [{ bearerAuth: [] }]
+      parameters: [{ in: header, name: Idempotency-Key, required: true, schema: { type: string } }]
+      responses: { '201': { description: Score created }, '400': { description: Invalid score } }
+  /api/leaderboard:
+    get:
+      security: [{ bearerAuth: [] }]
+      responses: { '200': { description: Leaderboard } }
 components:
   securitySchemes:
     bearerAuth: { type: http, scheme: bearer, bearerFormat: JWT }

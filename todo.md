@@ -64,3 +64,28 @@
 - [ ] ผู้ใช้สามารถล้างคำค้นหาและตัวกรองได้
 - [ ] ระบบแสดงจำนวนรายการที่ค้นพบ
 - [ ] เมื่อไม่พบรายการ ระบบแสดงข้อความที่เข้าใจได้
+
+---
+
+# Developer Checklist — student1 backend
+
+- [ ] สร้างโครงสร้าง backend และ environment config
+- [ ] สร้าง database migration
+- [ ] ออกแบบตาราง users, students, universities, game_scores และ security_events
+- [ ] ทำ LINE OAuth หรือ mock OAuth provider
+- [ ] ทำ JWT/session ที่หมดอายุได้
+- [ ] ทำ middleware authenticate และ requireRole
+- [ ] ป้องกัน ownership และ IDOR
+- [ ] ทำ API นักศึกษา บัตร คะแนน สถิติ และ leaderboard
+- [ ] ทำ CRUD สำหรับ admin
+- [ ] ตรวจสอบ game_type และช่วงคะแนนฝั่ง server
+- [ ] รองรับ idempotency key สำหรับการบันทึกคะแนน
+- [ ] ตั้งค่า CORS allowlist และ security headers
+- [ ] ทำ generic error handler และ rate limit
+- [ ] ทำ seed data สำหรับ staging โดยไม่ใช้ข้อมูลจริง
+- [ ] เขียน OpenAPI
+- [ ] เขียน integration tests
+- [ ] ส่งมอบ API base URL
+- [ ] ส่งมอบ .env.example
+- [ ] ส่งมอบ migration และ seed command
+- [ ] ส่งมอบ test report

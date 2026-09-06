@@ -7,3 +7,7 @@ output/
 backend/data/
 *.db
 backend/api
+
+# Personal agent rules — local only, not shared with team
+AGENTS.md
+AGENTS.local.md

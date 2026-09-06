@@ -1,5 +1,6 @@
 import http from 'node:http';
 import crypto from 'node:crypto';
+import { pathToFileURL } from 'node:url';
 
 const port = Number(process.env.PORT || 4000);
 const secret = process.env.JWT_SECRET || 'local-development-secret-change-me';
@@ -75,4 +76,4 @@ async function handle(req, res) {
 }
 
 export const server = http.createServer(handle);
-if (process.argv[1] === new URL(import.meta.url).pathname) server.listen(port, () => console.log(`Siam U API listening on http://localhost:${port}`));
+if (pathToFileURL(process.argv[1]).href === import.meta.url) server.listen(port, () => console.log(`Siam U API listening on http://localhost:${port}`));

@@ -1,0 +1,43 @@
+.mini-stat {
+  text-align: center;
+  padding: 16px 8px;
+  background: rgba(255, 255, 255, .045);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, .07);
+  transition: transform .25s var(--ease-spring), border-color .25s;
+}
+.mini-stat:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 143, 163, .3);
+}
+.mini-value {
+  font-size: 26px;
+  font-weight: 800;
+  background: linear-gradient(120deg, #fff, var(--brand-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.mini-label { font-size: 12px; color: var(--ink-soft); margin-top: 2px; }
+
+.score-chart { display: flex; flex-direction: column; gap: 10px; }
+.score-bar-row {
+  display: flex; align-items: center; gap: 12px;
+}
+.bar-track {
+  flex: 1;
+  height: 14px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, .07);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .05);
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  width: 0;
+  animation: growBar 1s var(--ease-spring) both;
+  box-shadow: 0 0 14px rgba(255, 255, 255, .18);
+  background-size: 180% 180%;
+}
+@keyframes growBar { from { width: 0; } }

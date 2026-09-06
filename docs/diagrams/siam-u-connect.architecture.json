@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "SIAM U Connect · ระบบเดโมและศูนย์ความปลอดภัย",
+    "output": "siam-u-connect.architecture.html",
+    "quality_profile": "showcase",
+    "viewBox": [1200, 640],
+    "views": [
+      { "id": "web-flow", "label": "เส้นทางหน้าเว็บ", "focus": ["student", "login", "portal", "games", "score-store"], "note": "ติดตามการล็อกอิน การเล่นเกม และการบันทึกคะแนนเดโมในเครื่อง" },
+      { "id": "firewall-demo", "label": "Firewall เดโม", "focus": ["portal", "firewall", "demo-store"], "note": "ดูการเปิดปิดกฎ การประเมินเหตุการณ์ และ audit log ที่ทำในเบราว์เซอร์" },
+      { "id": "api-mode", "label": "โหมด API", "focus": ["portal", "api-layer", "railway"], "note": "โหมด API เป็นทางเลือกและยังมี fallback เมื่อ backend ไม่ตอบสนอง" }
+    ]
+  },
+  "components": [
+    { "id": "student", "type": "external", "label": "นักศึกษา / ผู้ดูแล", "sublabel": "Browser user", "tag": "actor", "pos": [48, 312], "size": [150, 68] },
+    { "id": "login", "type": "frontend", "label": "LoginPage", "sublabel": "LINE demo + role", "tag": "route /login", "pos": [260, 312], "size": [164, 68] },
+    { "id": "portal", "type": "frontend", "label": "React portal", "sublabel": "Dashboard · Card · Score · Rank", "tag": "RequireAuth", "pos": [486, 312], "size": [190, 76] },
+    { "id": "games", "type": "frontend", "label": "Games + GamePlay", "sublabel": "quiz · sorting · matching", "tag": "routes /games/*", "pos": [738, 184], "size": [178, 72] },
+    { "id": "firewall", "type": "security", "label": "FirewallPanel", "sublabel": "browser-only simulation", "tag": "route /admin?tab=firewall", "pos": [738, 440], "size": [178, 72] },
+    { "id": "api-layer", "type": "backend", "label": "API layer", "sublabel": "src/api.js · demo/api mode", "tag": "VITE_DATA_MODE", "pos": [738, 312], "size": [178, 72] },
+    { "id": "score-store", "type": "database", "label": "Demo score store", "sublabel": "localStorage · siamu_demo_*", "tag": "scores + stats", "pos": [972, 184], "size": [178, 72] },
+    { "id": "demo-store", "type": "database", "label": "Firewall event state", "sublabel": "React state · 100 event cap", "tag": "audit log demo", "pos": [972, 440], "size": [178, 72] },
+    { "id": "railway", "type": "external", "label": "Railway backend", "sublabel": "siam-u-line-welcome-production", "tag": "optional API", "pos": [972, 312], "size": [178, 72] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Browser: SIAM U Connect", "wraps": ["login", "portal", "games", "firewall", "api-layer", "score-store", "demo-store"] },
+    { "kind": "security-group", "label": "Firewall boundary · demo only", "wraps": ["firewall", "demo-store"] }
+  ],
+  "connections": [
+    { "id": "actor-login", "from": "student", "to": "login", "variant": "emphasis" },
+    { "id": "login-portal", "from": "login", "to": "portal" },
+    { "id": "portal-games", "from": "portal", "to": "games" },
+    { "id": "games-scores", "from": "games", "to": "score-store", "variant": "emphasis" },
+    { "id": "scores-portal", "from": "score-store", "to": "portal", "variant": "dashed", "fromSide": "bottom", "toSide": "top" },
+    { "id": "portal-api", "from": "portal", "to": "api-layer" },
+    { "id": "api-railway", "from": "api-layer", "to": "railway", "variant": "dashed" },
+    { "id": "admin-firewall", "from": "portal", "to": "firewall", "variant": "security", "fromSide": "bottom", "toSide": "top" },
+    { "id": "firewall-events", "from": "firewall", "to": "demo-store", "variant": "security" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Web process", "items": ["3 playable demo games share one score store", "Dashboard, My Score and Ranking read the same local data"] },
+    { "dot": "rose", "title": "Firewall truth", "items": ["Six controls are interactive UI simulations", "No WAF, rate limiter or blocking gateway is installed here"] },
+    { "dot": "emerald", "title": "Data modes", "items": ["VITE_DATA_MODE=demo is the offline default", "VITE_DATA_MODE=api keeps the Railway proxy path available"] }
+  ]
+}

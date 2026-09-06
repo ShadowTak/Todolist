@@ -1,0 +1,23 @@
+openapi: 3.0.3
+info:
+  title: Siam U API
+  version: 0.1.0
+servers:
+  - url: http://localhost:4000
+paths:
+  /health: { get: { responses: { '200': { description: OK } } } }
+  /api/auth/mock:
+    post:
+      summary: Development OAuth provider
+      requestBody: { required: true }
+      responses: { '201': { description: Authenticated user } }
+  /api/me: { get: { security: [{ bearerAuth: [] }], responses: { '200': { description: Current user } } } }
+  /api/scores:
+    post:
+      security: [{ bearerAuth: [] }]
+      parameters: [{ in: header, name: Idempotency-Key, required: true, schema: { type: string } }]
+      responses: { '201': { description: Score created }, '400': { description: Invalid score } }
+  /api/leaderboard: { get: { security: [{ bearerAuth: [] }], responses: { '200': { description: Leaderboard } } } }
+components:
+  securitySchemes:
+    bearerAuth: { type: http, scheme: bearer, bearerFormat: JWT }
